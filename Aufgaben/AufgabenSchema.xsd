@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AufgabenSchema"
+    targetNamespace="http://tempuri.org/AufgabenSchema.xsd"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/AufgabenSchema.xsd"
+    xmlns:mstns="http://tempuri.org/AufgabenSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="Aufgaben"></xs:element>
+  <xs:attribute type="xs:date" name="Annahmedatum"></xs:attribute>
+
+
+
+
+
+</xs:schema>
