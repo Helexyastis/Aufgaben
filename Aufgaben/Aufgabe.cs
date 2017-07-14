@@ -32,6 +32,7 @@ namespace Aufgaben
         public DateTime AbgabeDatum { get { return abgabe; } set { abgabe = value; } }
         public string Auftragsnumemr { get { return aufnr; }set { aufnr = value; } }
         public int ID { get { return id; } set { id = value; } }
+        public string Name { get { return name; } set { name = value; } }
 
         public Aufgabe(int id,string name)
         {

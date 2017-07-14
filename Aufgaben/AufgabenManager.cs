@@ -65,6 +65,23 @@ namespace Aufgaben
         {
             XmlNode root = document.SelectSingleNode("aufgaben");
             XmlNode nodeToAdd = document.CreateElement("aufgabe");
+            nodeToAdd.Attributes.Append(document.CreateAttribute("id"));
+            nodeToAdd.Attributes.Append(document.CreateAttribute("name"));
+            nodeToAdd.Attributes[0].Value = task.ID.ToString();
+            nodeToAdd.Attributes[1].Value = task.Name;
+            nodeToAdd.AppendChild(document.CreateElement("annahme"));
+            nodeToAdd.AppendChild(document.CreateElement("abgabe"));
+            nodeToAdd.AppendChild(document.CreateElement("parent"));
+            nodeToAdd.AppendChild(document.CreateElement("kontakt"));
+            nodeToAdd.AppendChild(document.CreateElement("status"));
+            nodeToAdd.AppendChild(document.CreateElement("zeitaufwand"));
+            nodeToAdd.AppendChild(document.CreateElement("subtasks"));
+            foreach(Aufgabe subTask in task.ChildTasks)
+            {
+                XmlNode childTask = document.CreateElement("subtask");
+
+                nodeToAdd.LastChild.AppendChild(childTask);
+            }
 
             root.AppendChild(nodeToAdd);
 

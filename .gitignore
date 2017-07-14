@@ -301,3 +301,6 @@ __pycache__/
 
 ###### -- Custom Ignore Section, Make sure all files you add to the git repo are below this line  --  ######
 
+
+Aufgaben/obj/Debug*/
+Aufgaben/obj/Debug/DesignTimeResolveAssemblyReferences.cache
