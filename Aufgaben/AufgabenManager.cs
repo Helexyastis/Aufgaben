@@ -9,6 +9,7 @@ namespace Aufgaben
 {
     class AufgabenManager
     {
+        
         List<Aufgabe> aufgaben;
         string pathToXML = @"C:\DTS\Projects\Aufgaben\Aufgaben\Aufgaben.xml";
         XmlDocument document;
@@ -21,6 +22,7 @@ namespace Aufgaben
         private void Save()
         {
             document.Save(pathToXML);
+            
         }
         private void LoadAufgaben()
         {
@@ -79,12 +81,30 @@ namespace Aufgaben
             foreach(Aufgabe subTask in task.ChildTasks)
             {
                 XmlNode childTask = document.CreateElement("subtask");
-
+                XmlAttribute attri = document.CreateAttribute("id");
+                attri.Value = subTask.ID.ToString();
+                childTask.Attributes.Append(attri);
+                attri = document.CreateAttribute("name");
+                attri.Value = subTask.Name;
+                childTask.Attributes.Append(attri);
                 nodeToAdd.LastChild.AppendChild(childTask);
+                
             }
 
             root.AppendChild(nodeToAdd);
-
+            document.Save(pathToXML);
         }
+
+        public Aufgabe GetAufgabeByName(string name)
+        {
+            Aufgabe returnValue = aufgaben.Find(a => a.Name == name);
+            if(returnValue is null)
+            {
+                throw new Exception("Keine Aufgabe mit dem Namen " + name + " gefunden.");
+            }
+            return returnValue;
+        }
+        public 
+      
     }
 }

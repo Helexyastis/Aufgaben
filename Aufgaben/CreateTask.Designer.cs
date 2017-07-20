@@ -70,6 +70,7 @@
             this.b_save.TabIndex = 2;
             this.b_save.Text = "Speichern";
             this.b_save.UseVisualStyleBackColor = true;
+            this.b_save.Click += new System.EventHandler(this.b_save_Click);
             // 
             // b_abort
             // 
@@ -208,6 +209,7 @@
             this.Controls.Add(this.tb_taskname);
             this.Name = "CreateTask";
             this.Text = "CreateTask";
+            this.Load += new System.EventHandler(this.CreateTask_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
