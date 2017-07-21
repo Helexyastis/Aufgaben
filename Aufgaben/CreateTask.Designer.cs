@@ -44,6 +44,7 @@
             this.tb_aufnr = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.cb_isParent = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tb_taskname
@@ -52,6 +53,7 @@
             this.tb_taskname.Name = "tb_taskname";
             this.tb_taskname.Size = new System.Drawing.Size(244, 20);
             this.tb_taskname.TabIndex = 0;
+            this.tb_taskname.TextChanged += new System.EventHandler(this.tb_taskname_TextChanged);
             // 
             // label1
             // 
@@ -64,32 +66,34 @@
             // 
             // b_save
             // 
-            this.b_save.Location = new System.Drawing.Point(374, 227);
+            this.b_save.Location = new System.Drawing.Point(393, 263);
             this.b_save.Name = "b_save";
             this.b_save.Size = new System.Drawing.Size(75, 23);
             this.b_save.TabIndex = 2;
             this.b_save.Text = "Speichern";
             this.b_save.UseVisualStyleBackColor = true;
+            this.b_save.Click += new System.EventHandler(this.b_save_Click);
             // 
             // b_abort
             // 
-            this.b_abort.Location = new System.Drawing.Point(469, 227);
+            this.b_abort.Location = new System.Drawing.Point(488, 263);
             this.b_abort.Name = "b_abort";
             this.b_abort.Size = new System.Drawing.Size(75, 23);
             this.b_abort.TabIndex = 3;
             this.b_abort.Text = "Abbrechen";
             this.b_abort.UseVisualStyleBackColor = true;
+            this.b_abort.Click += new System.EventHandler(this.b_abort_Click);
             // 
             // dtp_startdatum
             // 
-            this.dtp_startdatum.Location = new System.Drawing.Point(12, 108);
+            this.dtp_startdatum.Location = new System.Drawing.Point(338, 51);
             this.dtp_startdatum.Name = "dtp_startdatum";
             this.dtp_startdatum.Size = new System.Drawing.Size(200, 20);
             this.dtp_startdatum.TabIndex = 4;
             // 
             // dtp_enddatum
             // 
-            this.dtp_enddatum.Location = new System.Drawing.Point(12, 167);
+            this.dtp_enddatum.Location = new System.Drawing.Point(338, 110);
             this.dtp_enddatum.Name = "dtp_enddatum";
             this.dtp_enddatum.Size = new System.Drawing.Size(200, 20);
             this.dtp_enddatum.TabIndex = 5;
@@ -97,7 +101,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 92);
+            this.label2.Location = new System.Drawing.Point(338, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 6;
@@ -106,7 +110,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 151);
+            this.label3.Location = new System.Drawing.Point(339, 94);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 7;
@@ -114,8 +118,9 @@
             // 
             // cb_parenttask
             // 
+            this.cb_parenttask.Enabled = false;
             this.cb_parenttask.FormattingEnabled = true;
-            this.cb_parenttask.Location = new System.Drawing.Point(276, 52);
+            this.cb_parenttask.Location = new System.Drawing.Point(12, 152);
             this.cb_parenttask.Name = "cb_parenttask";
             this.cb_parenttask.Size = new System.Drawing.Size(268, 21);
             this.cb_parenttask.TabIndex = 8;
@@ -123,7 +128,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(273, 35);
+            this.label4.Location = new System.Drawing.Point(9, 135);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(121, 13);
             this.label4.TabIndex = 9;
@@ -132,7 +137,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(277, 90);
+            this.label5.Location = new System.Drawing.Point(13, 190);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 11;
@@ -140,7 +145,7 @@
             // 
             // tb_contact
             // 
-            this.tb_contact.Location = new System.Drawing.Point(276, 108);
+            this.tb_contact.Location = new System.Drawing.Point(12, 208);
             this.tb_contact.Name = "tb_contact";
             this.tb_contact.Size = new System.Drawing.Size(268, 20);
             this.tb_contact.TabIndex = 10;
@@ -155,14 +160,14 @@
             "warte auf Chef",
             "Abgeschlossen",
             ""});
-            this.cb_state.Location = new System.Drawing.Point(276, 166);
+            this.cb_state.Location = new System.Drawing.Point(299, 165);
             this.cb_state.Name = "cb_state";
             this.cb_state.Size = new System.Drawing.Size(121, 21);
             this.cb_state.TabIndex = 12;
             // 
             // tb_aufnr
             // 
-            this.tb_aufnr.Location = new System.Drawing.Point(430, 167);
+            this.tb_aufnr.Location = new System.Drawing.Point(453, 166);
             this.tb_aufnr.Name = "tb_aufnr";
             this.tb_aufnr.Size = new System.Drawing.Size(114, 20);
             this.tb_aufnr.TabIndex = 13;
@@ -170,7 +175,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(277, 150);
+            this.label6.Location = new System.Drawing.Point(300, 149);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(37, 13);
             this.label6.TabIndex = 14;
@@ -179,17 +184,31 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(427, 150);
+            this.label7.Location = new System.Drawing.Point(450, 149);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(83, 13);
             this.label7.TabIndex = 15;
             this.label7.Text = "Auftragsnummer";
             // 
+            // cb_isParent
+            // 
+            this.cb_isParent.AutoSize = true;
+            this.cb_isParent.Checked = true;
+            this.cb_isParent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_isParent.Location = new System.Drawing.Point(12, 110);
+            this.cb_isParent.Name = "cb_isParent";
+            this.cb_isParent.Size = new System.Drawing.Size(108, 17);
+            this.cb_isParent.TabIndex = 16;
+            this.cb_isParent.Text = "Ist Hauptaufgabe";
+            this.cb_isParent.UseVisualStyleBackColor = true;
+            this.cb_isParent.CheckedChanged += new System.EventHandler(this.cb_isParent_CheckedChanged);
+            // 
             // CreateTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(575, 270);
+            this.ClientSize = new System.Drawing.Size(575, 298);
+            this.Controls.Add(this.cb_isParent);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tb_aufnr);
@@ -208,6 +227,7 @@
             this.Controls.Add(this.tb_taskname);
             this.Name = "CreateTask";
             this.Text = "CreateTask";
+            this.Load += new System.EventHandler(this.CreateTask_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -231,5 +251,6 @@
         private System.Windows.Forms.TextBox tb_aufnr;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox cb_isParent;
     }
 }

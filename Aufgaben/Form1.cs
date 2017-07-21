@@ -21,5 +21,11 @@ namespace Aufgaben
         {
             this.Close();
         }
+
+        private void b_new_Click(object sender, EventArgs e)
+        {
+            CreateTask createTask = new CreateTask();
+            createTask.Show();
+        }
     }
 }

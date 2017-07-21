@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.b_Close = new System.Windows.Forms.Button();
+            this.b_new = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // b_Close
@@ -41,11 +42,22 @@
             this.b_Close.UseVisualStyleBackColor = true;
             this.b_Close.Click += new System.EventHandler(this.button1_Click);
             // 
+            // b_new
+            // 
+            this.b_new.Location = new System.Drawing.Point(363, 410);
+            this.b_new.Name = "b_new";
+            this.b_new.Size = new System.Drawing.Size(104, 29);
+            this.b_new.TabIndex = 1;
+            this.b_new.Text = "Aufgabe anlegen";
+            this.b_new.UseVisualStyleBackColor = true;
+            this.b_new.Click += new System.EventHandler(this.b_new_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(725, 499);
+            this.Controls.Add(this.b_new);
             this.Controls.Add(this.b_Close);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -56,6 +68,7 @@
         #endregion
 
         private System.Windows.Forms.Button b_Close;
+        private System.Windows.Forms.Button b_new;
     }
 }
 
