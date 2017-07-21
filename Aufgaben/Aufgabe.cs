@@ -8,7 +8,7 @@ namespace Aufgaben
 {
     class Aufgabe
     {
-        enum ZeitStatus { red,green,yellow};
+        enum ZeitStatus { red, green, yellow };
         //List<Aufgabe> subAufgaben;
         Aufgabe parent;
         string kontakt;
@@ -22,25 +22,26 @@ namespace Aufgaben
         ZeitStatus zeitStatus;
         string name;
         int id;
-        public Aufgabe Partent { get { return parent; } set { parent = value; } }
+        public Aufgabe Partent { get { return parent; } set { parent = value; if (parent.ChildTasks != null) Partent.ChildTasks.Add(this); } }
         public List<Aufgabe> ChildTasks { get; set; }
         public string Kontakt { get { return kontakt; } set { kontakt = value; } }
         public string Status { get { return status; } set { status = value; } }
-        public TimeSpan ZeitAufwand {get { return zeitAufwand; } set { zeitAufwand = value; } } 
-        public TimeSpan TimeLeft { get { return abgabe.Subtract(DateTime.Now); }}
-        public DateTime AnnahmeDatum { get { return annahme; }set { annahme = value; } }
+        public TimeSpan ZeitAufwand { get { return zeitAufwand; } set { zeitAufwand = value; } }
+        public TimeSpan TimeLeft { get { return abgabe.Subtract(DateTime.Now); } }
+        public DateTime AnnahmeDatum { get { return annahme; } set { annahme = value; } }
         public DateTime AbgabeDatum { get { return abgabe; } set { abgabe = value; } }
-        public string Auftragsnumemr { get { return aufnr; }set { aufnr = value; } }
+        public string Auftragsnumemr { get { return aufnr; } set { aufnr = value; } }
         public int ID { get { return id; } set { id = value; } }
         public string Name { get { return name; } set { name = value; } }
 
-        public Aufgabe(int id,string name)
+        public Aufgabe(int id, string name)
         {
             this.name = name;
             this.id = id;
+            ChildTasks = new List<Aufgabe>();
         }
 
-        public Aufgabe(string name,Aufgabe parent,string kontakt,string status,DateTime annahme,DateTime abgabe,string aufnr)
+        public Aufgabe(string name, Aufgabe parent, string kontakt, string status, DateTime annahme, DateTime abgabe, string aufnr)
         {
             ChildTasks = new List<Aufgabe>();
             this.name = name;
@@ -52,10 +53,10 @@ namespace Aufgaben
             this.aufnr = aufnr;
             timeLeft = abgabe.Subtract(annahme);
             zeitStatus = ZeitStatus.green;
-            if(parent != null)
-            {
-                parent.ChildTasks.Add(this);
-            }
+            if (parent != null)
+                if (Partent.ChildTasks != null)
+                    parent.ChildTasks.Add(this);
+
         }
         private void SetZeitStatus()
         {
@@ -65,14 +66,14 @@ namespace Aufgaben
             TimeSpan timeLeftNow = abgabe.Subtract(heute);
             TimeSpan timeDiff = timeLeft.Subtract(timeLeftNow);
             int percent = (timeDiff.Days * 100) / timeLeft.Days;
-            
-            if(percent>0 && percent <= 25)
+
+            if (percent > 0 && percent <= 25)
             {
                 zeitStatus = ZeitStatus.red;
             }
             else
             {
-                if(percent>25 &&percent<= 65)
+                if (percent > 25 && percent <= 65)
                 {
                     zeitStatus = ZeitStatus.yellow;
                 }
