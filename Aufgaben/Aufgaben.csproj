@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aufgabe.cs" />
+    <Compile Include="AufgabenControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="AufgabenManager.cs" />
     <Compile Include="CreateTask.cs">
       <SubType>Form</SubType>
