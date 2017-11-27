@@ -9,9 +9,10 @@ namespace Aufgaben
 {
     class AufgabenManager
     {
+
         
         List<Aufgabe> aufgaben;
-        string pathToXML = @"C:\DTS\Projects\Aufgaben\Aufgaben\Aufgaben.xml";
+        string pathToXML = Environment.CurrentDirectory; // @"C:\DTS\Projects\Aufgaben\Aufgaben\Aufgaben.xml";
         XmlDocument document;
         public List<Aufgabe> Aufgaben { get { return aufgaben; } }
         public static int ID { get; private set; }

@@ -27,5 +27,11 @@ namespace Aufgaben
             CreateTask createTask = new CreateTask();
             createTask.Show();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+           // MessageBox.Show(Environment.CurrentDirectory);
+        }
     }
 }
