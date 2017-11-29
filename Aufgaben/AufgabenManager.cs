@@ -7,12 +7,12 @@ using System.Xml;
 using System.Xml.XPath;
 namespace Aufgaben
 {
-    class AufgabenManager
+    public class AufgabenManager
     {
 
         
         List<Aufgabe> aufgaben;
-        string pathToXML = Environment.CurrentDirectory; // @"C:\DTS\Projects\Aufgaben\Aufgaben\Aufgaben.xml";
+        string pathToXML = Environment.CurrentDirectory+@"\Aufgaben.xml"; // @"C:\DTS\Projects\Aufgaben\Aufgaben\Aufgaben.xml";
         XmlDocument document;
         public List<Aufgabe> Aufgaben { get { return aufgaben; } }
         public static int ID { get; private set; }
@@ -52,6 +52,9 @@ namespace Aufgaben
                 {
                     switch (value.Name)
                     {
+                        case "beschreibung":
+                            aufgabe.Beschreibung = value.InnerText;
+                            break;
                         case "annahme":
                             aufgabe.AnnahmeDatum = Convert.ToDateTime(value.InnerText);
                             break;
@@ -95,6 +98,7 @@ namespace Aufgaben
             nodeToAdd.Attributes.Append(document.CreateAttribute("name"));
             nodeToAdd.Attributes[0].Value = task.ID.ToString();
             nodeToAdd.Attributes[1].Value = task.Name;
+            nodeToAdd.AppendChild(CreateNodeWithValue("beschreibung", task.Beschreibung));
             nodeToAdd.AppendChild(CreateNodeWithValue("annahme",task.AnnahmeDatum.ToString()));
             nodeToAdd.AppendChild(CreateNodeWithValue("abgabe", task.AbgabeDatum.ToString()));
             if(task.Partent !=null)

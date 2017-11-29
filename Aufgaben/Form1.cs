@@ -16,22 +16,34 @@ namespace Aufgaben
         {
             InitializeComponent();
         }
+        AufgabenManager manager;
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void b_new_Click(object sender, EventArgs e)
+        public void b_new_Click(object sender, EventArgs e)
         {
-            CreateTask createTask = new CreateTask();
+            CreateTask createTask = new CreateTask(manager);
             createTask.Show();
         }
-
+        List<AufgabenControl> acTasks;
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-           // MessageBox.Show(Environment.CurrentDirectory);
+            manager = new AufgabenManager();
+            acTasks = new List<AufgabenControl>();
+            int i = 0;
+            foreach (Aufgabe aufgabe in manager.Aufgaben)
+            {
+                if (i < 4)
+                    if(i>0)
+                    acTasks.Add(new AufgabenControl(aufgabe.Name, 6, ((141) * i)+19+5, 450, 141, gb_Tasks, aufgabe));
+                else
+                        acTasks.Add(new AufgabenControl(aufgabe.Name, 6, 19, 450, 141, gb_Tasks, aufgabe));
+                i++;
+            }
+
         }
     }
 }

@@ -45,6 +45,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.cb_isParent = new System.Windows.Forms.CheckBox();
+            this.tb_beschreibung = new System.Windows.Forms.TextBox();
+            this.l_beschreibung = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tb_taskname
@@ -66,7 +68,7 @@
             // 
             // b_save
             // 
-            this.b_save.Location = new System.Drawing.Point(393, 263);
+            this.b_save.Location = new System.Drawing.Point(393, 360);
             this.b_save.Name = "b_save";
             this.b_save.Size = new System.Drawing.Size(75, 23);
             this.b_save.TabIndex = 2;
@@ -76,7 +78,7 @@
             // 
             // b_abort
             // 
-            this.b_abort.Location = new System.Drawing.Point(488, 263);
+            this.b_abort.Location = new System.Drawing.Point(488, 360);
             this.b_abort.Name = "b_abort";
             this.b_abort.Size = new System.Drawing.Size(75, 23);
             this.b_abort.TabIndex = 3;
@@ -120,7 +122,7 @@
             // 
             this.cb_parenttask.Enabled = false;
             this.cb_parenttask.FormattingEnabled = true;
-            this.cb_parenttask.Location = new System.Drawing.Point(12, 152);
+            this.cb_parenttask.Location = new System.Drawing.Point(299, 284);
             this.cb_parenttask.Name = "cb_parenttask";
             this.cb_parenttask.Size = new System.Drawing.Size(268, 21);
             this.cb_parenttask.TabIndex = 8;
@@ -128,7 +130,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 135);
+            this.label4.Location = new System.Drawing.Point(300, 268);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(121, 13);
             this.label4.TabIndex = 9;
@@ -137,7 +139,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 190);
+            this.label5.Location = new System.Drawing.Point(300, 197);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 11;
@@ -145,7 +147,7 @@
             // 
             // tb_contact
             // 
-            this.tb_contact.Location = new System.Drawing.Point(12, 208);
+            this.tb_contact.Location = new System.Drawing.Point(299, 213);
             this.tb_contact.Name = "tb_contact";
             this.tb_contact.Size = new System.Drawing.Size(268, 20);
             this.tb_contact.TabIndex = 10;
@@ -195,7 +197,7 @@
             this.cb_isParent.AutoSize = true;
             this.cb_isParent.Checked = true;
             this.cb_isParent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cb_isParent.Location = new System.Drawing.Point(12, 110);
+            this.cb_isParent.Location = new System.Drawing.Point(299, 242);
             this.cb_isParent.Name = "cb_isParent";
             this.cb_isParent.Size = new System.Drawing.Size(108, 17);
             this.cb_isParent.TabIndex = 16;
@@ -203,11 +205,30 @@
             this.cb_isParent.UseVisualStyleBackColor = true;
             this.cb_isParent.CheckedChanged += new System.EventHandler(this.cb_isParent_CheckedChanged);
             // 
+            // tb_beschreibung
+            // 
+            this.tb_beschreibung.Location = new System.Drawing.Point(12, 126);
+            this.tb_beschreibung.Multiline = true;
+            this.tb_beschreibung.Name = "tb_beschreibung";
+            this.tb_beschreibung.Size = new System.Drawing.Size(244, 233);
+            this.tb_beschreibung.TabIndex = 17;
+            // 
+            // l_beschreibung
+            // 
+            this.l_beschreibung.AutoSize = true;
+            this.l_beschreibung.Location = new System.Drawing.Point(13, 110);
+            this.l_beschreibung.Name = "l_beschreibung";
+            this.l_beschreibung.Size = new System.Drawing.Size(133, 13);
+            this.l_beschreibung.TabIndex = 18;
+            this.l_beschreibung.Text = "Beschreibung der Aufgabe";
+            // 
             // CreateTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(575, 298);
+            this.ClientSize = new System.Drawing.Size(575, 395);
+            this.Controls.Add(this.l_beschreibung);
+            this.Controls.Add(this.tb_beschreibung);
             this.Controls.Add(this.cb_isParent);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -252,5 +273,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox cb_isParent;
+        private System.Windows.Forms.TextBox tb_beschreibung;
+        private System.Windows.Forms.Label l_beschreibung;
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Aufgaben
 {
-    class Aufgabe
+    public class Aufgabe
     {
         enum ZeitStatus { red, green, yellow };
         //List<Aufgabe> subAufgaben;
@@ -22,6 +22,7 @@ namespace Aufgaben
         ZeitStatus zeitStatus;
         string name;
         int id;
+        string beschreibung;
         public Aufgabe Partent { get { return parent; } set { parent = value; if (parent.ChildTasks != null) Partent.ChildTasks.Add(this); } }
         public List<Aufgabe> ChildTasks { get; set; }
         public string Kontakt { get { return kontakt; } set { kontakt = value; } }
@@ -30,9 +31,10 @@ namespace Aufgaben
         public TimeSpan TimeLeft { get { return abgabe.Subtract(DateTime.Now); } }
         public DateTime AnnahmeDatum { get { return annahme; } set { annahme = value; } }
         public DateTime AbgabeDatum { get { return abgabe; } set { abgabe = value; } }
-        public string Auftragsnumemr { get { return aufnr; } set { aufnr = value; } }
+        public string Auftragsnummer { get { return aufnr; } set { aufnr = value; } }
         public int ID { get { return id; } set { id = value; } }
         public string Name { get { return name; } set { name = value; } }
+        public string Beschreibung { get { return beschreibung; } set { beschreibung = value; } }
 
         public Aufgabe(int id, string name)
         {
@@ -41,7 +43,7 @@ namespace Aufgaben
             ChildTasks = new List<Aufgabe>();
         }
 
-        public Aufgabe(string name, Aufgabe parent, string kontakt, string status, DateTime annahme, DateTime abgabe, string aufnr)
+        public Aufgabe(string name, Aufgabe parent, string kontakt, string status, DateTime annahme, DateTime abgabe, string aufnr,string beschreibung)
         {
             ChildTasks = new List<Aufgabe>();
             this.name = name;
@@ -51,6 +53,7 @@ namespace Aufgaben
             this.annahme = annahme;
             this.abgabe = abgabe;
             this.aufnr = aufnr;
+            this.beschreibung = beschreibung;
             timeLeft = abgabe.Subtract(annahme);
             zeitStatus = ZeitStatus.green;
             if (parent != null)

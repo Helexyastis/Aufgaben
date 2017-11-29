@@ -12,11 +12,14 @@ namespace Aufgaben
 {
     public partial class CreateTask : Form
     {
-        public CreateTask()
+        public CreateTask(AufgabenManager manager)
         {
+            this.manager = manager;
             InitializeComponent();
         }
+
         AufgabenManager manager;
+
         private void b_save_Click(object sender, EventArgs e)
         {
             string name = tb_taskname.Text;
@@ -30,12 +33,14 @@ namespace Aufgaben
             DateTime startDatum = dtp_startdatum.Value.Date;
             DateTime endDatum = dtp_enddatum.Value.Date;
             string status = cb_state.SelectedText;
-            string parentName = cb_parenttask.SelectedItem.ToString();
+            string parentName = "";
+            if(!cb_isParent.Checked)
+                parentName=cb_parenttask.SelectedItem.ToString();
             Aufgabe parent = null;
             if (!cb_isParent.Checked)
                 parent = manager.GetAufgabeByName(parentName);
 
-            Aufgabe aufgabe = new Aufgabe(name, parent, kontakt, status, startDatum, endDatum, aufnr);
+            Aufgabe aufgabe = new Aufgabe(name, parent, kontakt, status, startDatum, endDatum, aufnr,tb_beschreibung.Text);
             aufgabe.ID = AufgabenManager.ID;
             manager.SaveNewTasks(aufgabe);
             MessageBox.Show("Aufgabe gespeichert.");
