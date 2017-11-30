@@ -25,7 +25,7 @@ namespace Aufgaben
 
         public void b_new_Click(object sender, EventArgs e)
         {
-            CreateTask createTask = new CreateTask(manager);
+            CreateTask createTask = new CreateTask();
             createTask.Show();
         }
         List<AufgabenControl> acTasks;

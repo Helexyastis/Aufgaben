@@ -139,7 +139,8 @@ namespace Aufgaben
 
         private void BEdit_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            CreateTask editTask = new CreateTask(aufgabe);
+            editTask.Show();
         }
     }
 }

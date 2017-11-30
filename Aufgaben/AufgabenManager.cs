@@ -62,7 +62,7 @@ namespace Aufgaben
                             aufgabe.AbgabeDatum = Convert.ToDateTime(value.InnerText);
                             break;
                         case "parent":
-                            aufgabe.Partent = GetAufgabeByName(value.InnerText.Split(';')[1]);
+                            aufgabe.Parent = GetAufgabeByName(value.InnerText.Split(';')[1]);
                             break;
                         case "konakt":
                             aufgabe.Kontakt = value.InnerText;
@@ -101,27 +101,68 @@ namespace Aufgaben
             nodeToAdd.AppendChild(CreateNodeWithValue("beschreibung", task.Beschreibung));
             nodeToAdd.AppendChild(CreateNodeWithValue("annahme",task.AnnahmeDatum.ToString()));
             nodeToAdd.AppendChild(CreateNodeWithValue("abgabe", task.AbgabeDatum.ToString()));
-            if(task.Partent !=null)
-                nodeToAdd.AppendChild(CreateNodeWithValue("parent", task.Partent.ID.ToString() + ";" + task.Partent.Name));
+            if(task.Parent !=null)
+                nodeToAdd.AppendChild(CreateNodeWithValue("parent", task.Parent.ID.ToString() + ";" + task.Parent.Name));
             nodeToAdd.AppendChild(CreateNodeWithValue("kontakt", task.Kontakt));
             nodeToAdd.AppendChild(CreateNodeWithValue("status", task.Status));
             nodeToAdd.AppendChild(CreateNodeWithValue("zeitaufwand", task.ZeitAufwand.ToString()));
             nodeToAdd.AppendChild(document.CreateElement("subtasks"));
             foreach(Aufgabe subTask in task.ChildTasks)
             {
-                XmlNode childTask = CreateNodeWithValue("subtask", task.Partent.ID.ToString() + ";" + task.Partent.Name);
+                XmlNode childTask = CreateNodeWithValue("subtask", task.Parent.ID.ToString() + ";" + task.Parent.Name);
                 nodeToAdd.LastChild.AppendChild(childTask);
                 
             }
             root.AppendChild(nodeToAdd);
-            if (task.Partent != null)
+            if (task.Parent != null)
             {
-                XmlNode parentNode = document.SelectNodes("aufgaben/aufgabe").Item(task.Partent.ID);
+                XmlNode parentNode = document.SelectNodes("aufgaben/aufgabe").Item(task.Parent.ID);
                 XmlNode subNodes = parentNode.LastChild;
                 subNodes.AppendChild(CreateNodeWithValue("subtask", task.ID.ToString() + ";" + task.Name));
 
             }
             document.Save(pathToXML);
+        }
+        public void SaveChangesInTask(Aufgabe aufgabe)
+        {
+            XmlNode aufgabenNode = GetAufgabenNode(aufgabe.Name, aufgabe.ID);
+            foreach(XmlNode subNode in aufgabenNode.ChildNodes)
+            {
+                switch (subNode.Name)
+                {
+                    case "beschreibung":
+                        subNode.InnerText = aufgabe.Beschreibung;
+                        break;
+                    case "annahme":
+                        subNode.InnerText = aufgabe.AnnahmeDatum.ToShortDateString();
+                        break;
+                    case "abgabe":
+                        subNode.InnerText = aufgabe.AbgabeDatum.ToShortDateString();
+                        break;
+                    case "parent":
+                        subNode.InnerText = aufgabe.Name + ";" + aufgabe.ID.ToString();
+                        break;
+                    case "konakt":
+                        subNode.InnerText = aufgabe.Kontakt;
+                        break;
+                    case "status":
+                        subNode.InnerText = aufgabe.Status;
+                        break;
+                    case "zeitaufwand":
+                        subNode.InnerText = aufgabe.TimeLeft.ToString();
+                        break;
+                    case "subtasks":
+                        foreach(XmlNode subtask in subNode.ChildNodes)
+                        {
+                            if(subtask.Name=="subtask")
+                               //l subtask.InnerText=aufgabe
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
 
         public Aufgabe GetAufgabeByName(string name)
@@ -140,6 +181,24 @@ namespace Aufgaben
             return outPut;
 
         }
-      
+        private XmlNode GetAufgabenNode(string name,int id)
+        {
+            XmlNodeList nodes = document.SelectNodes("aufgaben/aufgabe");
+            XmlNode value = null;
+
+            foreach (XmlNode node in nodes)
+            {
+                if (node.Attributes["name"].Value == name && node.Attributes["id"].Value == id.ToString())
+                {
+                    value = node;
+                    break;
+                }
+            }
+            if (value == null)
+            {
+                throw new Exception("Aufgabe nicht gefunden");
+            }
+            return value;
+        }
     }
 }

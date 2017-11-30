@@ -23,7 +23,7 @@ namespace Aufgaben
         string name;
         int id;
         string beschreibung;
-        public Aufgabe Partent { get { return parent; } set { parent = value; if (parent.ChildTasks != null) Partent.ChildTasks.Add(this); } }
+        public Aufgabe Parent { get { return parent; } set { parent = value; if (parent.ChildTasks != null) Parent.ChildTasks.Add(this); } }
         public List<Aufgabe> ChildTasks { get; set; }
         public string Kontakt { get { return kontakt; } set { kontakt = value; } }
         public string Status { get { return status; } set { status = value; } }
@@ -57,7 +57,7 @@ namespace Aufgaben
             timeLeft = abgabe.Subtract(annahme);
             zeitStatus = ZeitStatus.green;
             if (parent != null)
-                if (Partent.ChildTasks != null)
+                if (Parent.ChildTasks != null)
                     parent.ChildTasks.Add(this);
 
         }
