@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Aufgaben
 {
@@ -35,6 +36,19 @@ namespace Aufgaben
         public int ID { get { return id; } set { id = value; } }
         public string Name { get { return name; } set { name = value; } }
         public string Beschreibung { get { return beschreibung; } set { beschreibung = value; } }
+        public Color StatusFarbe { get {
+                switch (zeitStatus)
+                {
+                    case ZeitStatus.red:
+                        return Color.Red;
+                    case ZeitStatus.green:
+                        return Color.Green;
+                    case ZeitStatus.yellow:
+                        return Color.Yellow;
+                    default:
+                        return Color.FromKnownColor(KnownColor.Control);
+                }
+            } }
 
         public Aufgabe(int id, string name)
         {
@@ -55,20 +69,23 @@ namespace Aufgaben
             this.aufnr = aufnr;
             this.beschreibung = beschreibung;
             timeLeft = abgabe.Subtract(annahme);
-            zeitStatus = ZeitStatus.green;
+            SetZeitStatus();
             if (parent != null)
                 if (Parent.ChildTasks != null)
                     parent.ChildTasks.Add(this);
 
         }
-        private void SetZeitStatus()
+        public void SetZeitStatus()
         {
 
             DateTime heute = DateTime.Now;
 
             TimeSpan timeLeftNow = abgabe.Subtract(heute);
-            TimeSpan timeDiff = timeLeft.Subtract(timeLeftNow);
-            int percent = (timeDiff.Days * 100) / timeLeft.Days;
+            TimeSpan timeDiff = TimeLeft.Subtract(timeLeftNow);
+
+            int percent = 100;
+            if(timeLeft.Days>0)
+                percent=(timeDiff.Days * 100) / timeLeft.Days;
 
             if (percent > 0 && percent <= 25)
             {

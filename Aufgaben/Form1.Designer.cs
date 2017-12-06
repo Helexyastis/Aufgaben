@@ -61,11 +61,13 @@
             this.gb_Tasks.TabIndex = 2;
             this.gb_Tasks.TabStop = false;
             this.gb_Tasks.Text = "Aufgaben";
+            this.gb_Tasks.Validated += new System.EventHandler(this.gb_Tasks_Validated);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(725, 499);
             this.Controls.Add(this.gb_Tasks);
             this.Controls.Add(this.b_new);
@@ -73,6 +75,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.ResumeLayout(false);
 
         }

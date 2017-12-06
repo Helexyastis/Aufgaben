@@ -5,9 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+
 namespace Aufgaben
 {
-    class AufgabenControl : Control
+    public class OnOrderChangedEventArgs
+    {
+        public Point Location { get; private set; }
+        public int ID { get; private set; }
+        public OnOrderChangedEventArgs(Point location, int id)
+        {
+            Location = location;
+            ID = id;
+        }
+    }
+    public class AufgabenControl : Control
     {
         bool mousePressed = false;
         Aufgabe aufgabe;
@@ -21,16 +32,22 @@ namespace Aufgaben
         GroupBox gbAufgabe;
         Control cParent;
         Button bEdit;
-        public AufgabenControl() 
+        public delegate void OnOrderChangeEventHandler(object sender, OnOrderChangedEventArgs args);
+        public event EventHandler OnChange;
+        public event OnOrderChangeEventHandler OnOrderChange;
+        public Aufgabe Task { get { return aufgabe; } }
+        public int ID { get; set; }
+        public GroupBox TaskControl { get { return gbAufgabe; } set { gbAufgabe = value; } }
+        public AufgabenControl()
             : base()
         {
 
         }
 
-        public AufgabenControl(string text, int left, int top, int width, int height,Control parent,Aufgabe aufgabe) 
+        public AufgabenControl(string text, int left, int top, int width, int height, Control parent)
             : base(text, left, top, width, height)
         {
-            this.aufgabe = aufgabe;
+
             cParent = parent;
             gbAufgabe = new GroupBox();
             gbAufgabe.Text = text;
@@ -40,35 +57,26 @@ namespace Aufgaben
             gbAufgabe.Click += GbAufgabe_Click;
             gbAufgabe.MouseMove += GbAufgabe_MouseMove;
             lAufgabenText = new Label();
-            lAufgabenText.Text = aufgabe.Beschreibung;
-            lAufgabenText.Top = 32;
+            lAufgabenText.Top = 30;
             lAufgabenText.AutoSize = true;
-            lAufgabenText.Left = 18;
+            lAufgabenText.Left = 9;
             lKontakt = new Label();
-            lKontakt.Text = aufgabe.Kontakt;
-            lKontakt.Top = 32;
+            lKontakt.Top = 30;
             lKontakt.Left = 157;
             lKontakt.AutoSize = true;
             lStartDatum = new Label();
-            lStartDatum.Text = aufgabe.AnnahmeDatum.ToShortDateString();
             lStartDatum.Top = 59;
             lStartDatum.Left = 157;
             lStartDatum.AutoSize = true;
             lEndDate = new Label();
-            lEndDate.Text = aufgabe.AbgabeDatum.ToShortDateString();
             lEndDate.Top = 85;
             lEndDate.Left = 157;
             lEndDate.AutoSize = true;
             lTimeLeft = new Label();
-            lTimeLeft.Text = "31";
             lTimeLeft.Top = 112;
             lTimeLeft.Left = 157;
             lTimeLeft.AutoSize = true;
             lbSubItems = new ListBox();
-            foreach (Aufgabe subTask in aufgabe.ChildTasks)
-            {
-                lbSubItems.Items.Add(subTask.ID.ToString() +";"+subTask.Name);
-            }
             lbSubItems.Top = 18;
             lbSubItems.Left = 223;
             lbSubItems.Size = new Size(120, 121);
@@ -85,24 +93,36 @@ namespace Aufgaben
             gbAufgabe.Controls.Add(lEndDate);
             gbAufgabe.Controls.Add(lTimeLeft);
             gbAufgabe.Controls.Add(lbSubItems);
-            
+
             gbAufgabe.CreateControl();
             parent.Controls.Add(gbAufgabe);
         }
         public void SetAufgabe(Aufgabe aufgabe)
         {
-
+            this.aufgabe = aufgabe;
+            lAufgabenText.Text = BreakTextWithLength(aufgabe.Beschreibung, 149);
+            lKontakt.Text = aufgabe.Kontakt;
+            lStartDatum.Text = aufgabe.AnnahmeDatum.ToShortDateString();
+            lEndDate.Text = aufgabe.AbgabeDatum.ToShortDateString();
+            lTimeLeft.Text = aufgabe.TimeLeft.Days.ToString() + " Tage";
+            foreach (Aufgabe subTask in aufgabe.ChildTasks)
+            {
+                lbSubItems.Items.Add(subTask.ID.ToString() + ";" + subTask.Name);
+            }
+            // gbAufgabe.BackColor = aufgabe.StatusFarbe;
+            //  bEdit.BackColor = Color.FromKnownColor(KnownColor.Control);
+            OnChange?.Invoke(this, new EventArgs());
         }
         private void GbAufgabe_MouseMove(object sender, MouseEventArgs e)
         {
             if (mousePressed)
             {
                 int y = e.Y - mouseDownlocation.Y;
-                if (y <0)
+                if (y < 0)
                 {
                     if (gbAufgabe.Top >= 19)
                     {
-                        gbAufgabe.Top +=y;
+                        gbAufgabe.Top += y;
                     }
                 }
                 else
@@ -112,13 +132,26 @@ namespace Aufgaben
                         gbAufgabe.Top += y;
                     }
                 }
-               
+
+                if (gbAufgabe.Top / Form1.ACHEIGHT == 0 && ((float)gbAufgabe.Top / Form1.ACHEIGHT) < 0.6f && ID != 0)
+                {
+                    OnOrderChange?.Invoke(this, new OnOrderChangedEventArgs(gbAufgabe.Location, ID));
+                    mousePressed = false;
+                }
+                if (gbAufgabe.Top / Form1.ACHEIGHT != ID && gbAufgabe.Top / Form1.ACHEIGHT > 0)
+                {
+                    OnOrderChange?.Invoke(this, new OnOrderChangedEventArgs(gbAufgabe.Location, ID));
+                    mousePressed = false;
+                }
+
+
+
             }
         }
 
         private void GbAufgabe_MouseUp(object sender, MouseEventArgs e)
         {
-            if(e.Button==MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
                 mousePressed = false;
         }
 
@@ -129,7 +162,7 @@ namespace Aufgaben
                 mousePressed = true;
                 mouseDownlocation = e.Location;
             }
-          
+
         }
 
         private void GbAufgabe_Click(object sender, EventArgs e)
@@ -139,8 +172,39 @@ namespace Aufgaben
 
         private void BEdit_Click(object sender, EventArgs e)
         {
-            CreateTask editTask = new CreateTask(aufgabe);
+            CreateTask editTask = new CreateTask(this);
             editTask.Show();
+            //editTask.Dispose();
+            //editTask = null;
+        }
+
+        private string BreakTextWithLength(string text, int length)
+        {
+            string value = "";
+            Size textlength = TextRenderer.MeasureText(text, SystemFonts.DialogFont);
+            string[] splitted = text.Split(' ');
+
+            if (textlength.Width > length)
+            {
+                for (int i = 0; i < splitted.Length; i++)
+                {
+                    if (TextRenderer.MeasureText(value + splitted[i].ToString(), SystemFonts.DialogFont).Width < length)
+                    {
+                        value = value + " " + splitted[i].ToString();
+                    }
+                    else
+                    {
+                        value = value + "\n" + splitted[i].ToString();
+                    }
+
+                }
+
+            }
+            else
+            {
+                value = text;
+            }
+            return value;
         }
     }
 }

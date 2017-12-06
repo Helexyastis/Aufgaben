@@ -15,16 +15,20 @@ namespace Aufgaben
         bool bearbeiten = false;
         AufgabenManager manager;
         Aufgabe aufgabe;
+        AufgabenControl aufgabeControl;
         public CreateTask()
         {
             bearbeiten = false;
             InitializeComponent();
+            this.Text = "Neue Aufgabe erstellen";
         }
-        public CreateTask(Aufgabe aufgabe)
+        public CreateTask(AufgabenControl aufgabe)
         {
-            this.aufgabe = aufgabe;
+            this.aufgabe = aufgabe.Task;
+            aufgabeControl = aufgabe;
             bearbeiten = true;
             InitializeComponent();
+            this.Text = "Aufgabe bearbeiten";
         }
 
         private void b_save_Click(object sender, EventArgs e)
@@ -38,6 +42,8 @@ namespace Aufgaben
                 SaveNewTask();
             }
             MessageBox.Show("Aufgabe gespeichert.");
+            Close();
+            Dispose();
         }
 
         private void CreateTask_Load(object sender, EventArgs e)
@@ -48,6 +54,7 @@ namespace Aufgaben
             {
                 tb_taskname.Text = aufgabe.Name;
                 tb_aufnr.Text = aufgabe.Auftragsnummer;
+                tb_contact.Text = aufgabe.Kontakt;
                 tb_beschreibung.Text = aufgabe.Beschreibung;
                 dtp_enddatum.Value = aufgabe.AbgabeDatum;
                 dtp_startdatum.Value = aufgabe.AnnahmeDatum;
@@ -111,6 +118,7 @@ namespace Aufgaben
             aufgabe.AnnahmeDatum = dtp_startdatum.Value;
             aufgabe.AbgabeDatum = dtp_enddatum.Value;
             aufgabe.Status = cb_state.SelectedText;
+            aufgabeControl.SetAufgabe(aufgabe);
             manager.SaveChangesInTask(aufgabe);
         }
     }
